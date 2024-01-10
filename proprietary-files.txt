@@ -1,4 +1,4 @@
-# Stock package version: XQ-DQ72_Customized HK_67.1.A.2.182
+# Stock package version: XQ-DE54_Customized EU-UK_67.1.A.2.182
 
 # ACDBs
 vendor/etc/acdbdata/IDP_UPD/IDP_UPD_acdb_cal.acdb
@@ -1014,8 +1014,6 @@ vendor/etc/permissions/vendor.qti.hardware.factory.xml
 vendor/lib64/vendor.qti.hardware.factory@1.0.so
 vendor/lib64/vendor.qti.hardware.factory@1.1.so
 
-# Memory
-
 # Modem
 vendor/bin/mlog_qmi_service
 vendor/etc/init/mlog_qmi_service.rc
@@ -1217,8 +1215,6 @@ vendor/lib64/libqsocket.so
 vendor/lib64/libsmemlog.so
 vendor/lib64/libsubsystem_control.so
 vendor/lib64/libsystem_health_mon.so
-
-# QRTR
 
 # QSAP
 vendor/bin/qsap_dcfd

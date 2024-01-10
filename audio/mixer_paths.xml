@@ -661,7 +661,7 @@
         <ctl name="TX_DEC1 Volume" value="84" />
         <ctl name="TX_AIF1_CAP Mixer DEC2" value="1" />
         <ctl name="TX DMIC MUX2" value="DMIC1" />
-        <ctl name="TX_DEC2 Volume" value="84"/>
+        <ctl name="TX_DEC2 Volume" value="85"/>
     </path>
 
     <path name="sony-handset-mic-unprocess-mono">
@@ -687,7 +687,7 @@
         <ctl name="TX_DEC1 Volume" value="84" />
         <ctl name="TX_AIF1_CAP Mixer DEC2" value="1" />
         <ctl name="TX DMIC MUX2" value="DMIC1" />
-        <ctl name="TX_DEC2 Volume" value="84"/>
+        <ctl name="TX_DEC2 Volume" value="85"/>
     </path>
 
     <path name="sony-handset-mic-voicerec-mono">
@@ -713,7 +713,7 @@
         <ctl name="TX_DEC1 Volume" value="84" />
         <ctl name="TX_AIF1_CAP Mixer DEC2" value="1" />
         <ctl name="TX DMIC MUX2" value="DMIC1" />
-        <ctl name="TX_DEC2 Volume" value="84"/>
+        <ctl name="TX_DEC2 Volume" value="85"/>
     </path>
 
     <path name="ultrasound-handset">
@@ -1761,7 +1761,7 @@
     </path>
 
     <path name="codec-loopback-common-iir">
-        <ctl name="IIR1 Band5" value="D0 EF 28 09 0F 9B 8C 38 E6 44 D2 07 0F 9B 8C 38 B6 34 FB 00" />
+        <ctl name="IIR1 Band5" value="77 BE 9F 0B 08 AC 1C 35 9E EF A7 0A 52 B8 1E 35 5E BA 49 06" />
     </path>
 
     <path name="codec-loopback-off-iir">
