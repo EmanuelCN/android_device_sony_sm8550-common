@@ -82,9 +82,14 @@ blob_fixups: blob_fixups_user_type = {
     'vendor/etc/msm_irqbalance.conf': blob_fixup().regex_replace(
         'IGNORED_IRQ=27,23,38', 'IGNORED_IRQ=27,23,38,115,332'
     ),
-    'vendor/etc/seccomp_policy/qwesd@2.0.policy': blob_fixup().add_line_if_missing(
-        'pipe2: 1'
-    ),
+    (
+    'vendor/etc/seccomp_policy/atfwd@2.0.policy',
+    'vendor/etc/seccomp_policy/wfdhdcphalservice.policy'
+    ): blob_fixup()
+        .add_line_if_missing('gettid: 1'),
+    'vendor/etc/seccomp_policy/qwesd@2.0.policy': blob_fixup()
+        .add_line_if_missing('gettid: 1')
+	.add_line_if_missing('pipe2: 1'),
     'vendor/lib64/vendor.semc.hardware.extlight-V1-ndk_platform.so': blob_fixup().replace_needed(
         'android.hardware.light-V1-ndk_platform.so',
         'android.hardware.light-V1-ndk.so'
