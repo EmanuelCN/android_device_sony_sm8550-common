@@ -645,33 +645,29 @@ vendor/etc/init/android.hardware.gatekeeper@1.0-service-qti.rc
 vendor/lib64/hw/android.hardware.gatekeeper@1.0-impl-qti.so
 
 # Graphics (Adreno)
-vendor/lib64/egl/eglSubDriverAndroid.so
-vendor/lib64/egl/libEGL_adreno.so;SYMLINK=vendor/lib64/libEGL_adreno.so
-vendor/lib64/egl/libGLESv1_CM_adreno.so
-vendor/lib64/egl/libGLESv2_adreno.so;SYMLINK=vendor/lib64/libGLESv2_adreno.so
-vendor/lib64/egl/libVkLayer_ADRENO_qprofiler.so
-vendor/lib64/egl/libq3dtools_adreno.so;SYMLINK=vendor/lib64/libq3dtools_adreno.so
-vendor/lib64/egl/libq3dtools_esx.so
-vendor/lib64/libCB.so
-vendor/lib64/libOpenCL.so
-vendor/lib64/libadreno_app_profiles.so
-vendor/lib64/libadreno_utils.so
-vendor/lib64/libgpudataproducer.so
-vendor/lib64/libgsl.so
-vendor/lib64/libkcl.so
-vendor/lib64/libkernelmanager.so
-vendor/lib64/libllvm-glnext.so
-vendor/lib64/libllvm-qcom.so
-vendor/lib64/libllvm-qgl.so
-
-# Graphics (Adreno firmware)
-vendor/gpu/kbc/sequence_manifest.bin
-vendor/gpu/kbc/unified_kbcs_32.bin
-vendor/gpu/kbc/unified_kbcs_64.bin
-vendor/gpu/kbc/unified_ksqs.bin
-
-# Graphics (Vulkan)
-vendor/lib64/hw/vulkan.adreno.so
+vendor/gpu/kbc/sequence_manifest.bin|d0569fdb8a2e659181a7c4369d8278cb99c92fca
+vendor/gpu/kbc/unified_kbcs_32.bin|146a4643b02c42737f93f9f57ea2b0a58d5676dc
+vendor/gpu/kbc/unified_kbcs_64.bin|6268b022b2b4867cdf94f093d5027a29d93619a6
+vendor/gpu/kbc/unified_ksqs.bin|e1174f1692be432f5ceca8f85ea669dbe667a2e7
+vendor/lib64/egl/eglSubDriverAndroid.so|6a69e79e3fbaff0218f081deade0814efcccbe23
+vendor/lib64/egl/libEGL_adreno.so|f4e098bd570e20a8707ff1a3ab791275c93605f5;SYMLINK=vendor/lib64/libEGL_adreno.so
+vendor/lib64/egl/libGLESv1_CM_adreno.so|0e27ec4c52c7d68d99ee83cc8c8df41f7f9c786b
+vendor/lib64/egl/libGLESv2_adreno.so|44920d49532f7af2430c95a0d3b7d2e7eeeeb741;SYMLINK=vendor/lib64/libGLESv2_adreno.so
+vendor/lib64/egl/libVkLayer_ADRENO_qprofiler.so|03b81665450b6e1c47c2448ee6529221721da376
+vendor/lib64/egl/libq3dtools_adreno.so|2a15f0e18e769d67e7f320d7b70c672ba6b06a40;SYMLINK=vendor/lib64/libq3dtools_adreno.so
+vendor/lib64/egl/libq3dtools_esx.so|3ad875bf0388005e4ffac5e1145fc6e3b76b6f6c
+vendor/lib64/hw/vulkan.adreno.so|9a4dffafe6764b0ff866cad902ae9f1a1b31dcbf
+vendor/lib64/libCB.so|b683467aa659486fe8d474778b2302e6b0b9f1b6
+vendor/lib64/libOpenCL.so|3a75415c2b091c55632d03ec993e29910f982ae4
+vendor/lib64/libadreno_app_profiles.so|668323bc0f1049106574e7d490a35bebae6e41b9
+vendor/lib64/libadreno_utils.so|106f4e9ce7dc000f807557a947ea1376616f4253
+vendor/lib64/libgpudataproducer.so|4b03baa70cba7c51fff30f90032f3be8f6930548
+vendor/lib64/libgsl.so|77d46f164d122b3fc6042c362f690a86f533c2a4
+vendor/lib64/libkcl.so|463bc7600f48b5de5be6877b0271d0993784ec8f
+vendor/lib64/libkernelmanager.so|4c0a1740581207b69e50515faed77adc2fb92689
+vendor/lib64/libllvm-glnext.so|c96142aa1cd67169977ac3e3bcfa13947c462645
+vendor/lib64/libllvm-qcom.so|e835a6351cdc5158a94d167ce92926829cb070fc
+vendor/lib64/libllvm-qgl.so|b353483d97908d063c13f4dc2d8b74ff0ceda79b
 
 # Hotword Enrollment
 product/priv-app/HotwordEnrollmentOKGoogleHEXAGON_WIDEBAND/HotwordEnrollmentOKGoogleHEXAGON_WIDEBAND.apk
