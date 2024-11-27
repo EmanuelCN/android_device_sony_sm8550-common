@@ -14,6 +14,7 @@ camera.disable_zsl_mode=true
 # Display
 debug.sf.enable_hwc_vds=1
 debug.sf.latch_unsignaled=1
+debug.sf.auto_latch_unsignaled=false
 
 # CNE
 persist.vendor.cne.feature=1
