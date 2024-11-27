@@ -1,5 +1,12 @@
 # Audio
 audio.offload.min.duration.secs=30
+af.resampler.quality=7 
+ro.audio.usb.period_us=20375 
+ro.audio.resampler.psd.stopband=132 
+ro.audio.resampler.psd.halflength=960 
+ro.audio.resampler.psd.cutoff_percent=98 
+ro.audio.resampler.psd.tbwcheat=0 
+persist.bluetooth.sbc_hd_higher_bitrate=1
 
 # Camera
 camera.disable_zsl_mode=true
