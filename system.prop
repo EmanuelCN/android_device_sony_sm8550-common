@@ -18,6 +18,8 @@ camera.disable_zsl_mode=true
 debug.sf.enable_hwc_vds=1
 debug.sf.latch_unsignaled=1
 debug.sf.auto_latch_unsignaled=false
+debug.hwui.skia_tracing_enabled=false
+debug.hwui.skia_use_perfetto_track_events=false
 
 # CNE
 persist.vendor.cne.feature=1
