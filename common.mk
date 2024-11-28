@@ -319,7 +319,8 @@ PRODUCT_PACKAGES += \
     libavservices_minijail_vendor \
     libcodec2_hidl@1.0.vendor \
     libcodec2_vndk.vendor \
-    libpalclient
+    libpalclient \
+    libutils.vendor
 
 # Memtrack
 PRODUCT_PACKAGES += \
