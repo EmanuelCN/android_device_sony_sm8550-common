@@ -1,7 +1,7 @@
 {
   "presubmit": [
     {
-      "name": "VibratorHalCs40l25TestSuite",
+      "name": "VibratorHalCs40l25TestSuiteSony",
       "keywords": [
         "nextgen"
       ]
@@ -9,12 +9,12 @@
   ],
   "postsubmit": [
     {
-      "name": "VibratorHalCs40l25Benchmark"
+      "name": "VibratorHalCs40l25BenchmarkSony"
     }
   ],
   "pts-experimental": [
     {
-      "name": "VibratorHalCs40l25TestSuite"
+      "name": "VibratorHalCs40l25TestSuiteSony"
     }
   ]
 }
