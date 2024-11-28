@@ -220,9 +220,6 @@ TARGET_COPY_OUT_SYSTEM_DLKM := system_dlkm
 TARGET_COPY_OUT_VENDOR := vendor
 TARGET_COPY_OUT_VENDOR_DLKM := vendor_dlkm
 
-# Power
-TARGET_POWERHAL_MODE_EXT := $(COMMON_PATH)/power/power-mode.cpp
-
 # PowerShare
 SOONG_CONFIG_NAMESPACES += SONY_POWERSHARE
 SOONG_CONFIG_SONY_POWERSHARE := WIRELESS_TX_ENABLE_PATH
@@ -252,6 +249,7 @@ VENDOR_SECURITY_PATCH := $(BOOT_SECURITY_PATCH)
 # Sepolicy
 include device/qcom/sepolicy_vndr/SEPolicy.mk
 include hardware/sony/sepolicy/qti/SEPolicy.mk
+include device/lineage/sepolicy/libperfmgr/sepolicy.mk
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
