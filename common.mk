@@ -269,6 +269,7 @@ PRODUCT_PACKAGES += \
     init.kernel.post_boot.sh \
     init.kernel.post_boot-kalama.sh \
     init.qcom.early_boot.sh \
+    init.qcom.post_boot.sh \
     init.qcom.msim.sh \
     init.qcom.rc \
     init.qcom.sh \
