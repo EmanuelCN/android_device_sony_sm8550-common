@@ -134,13 +134,8 @@ fi
 echo 556800 > /sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq
 echo 1 > /sys/devices/system/cpu/cpufreq/policy0/walt/pl
 
-# configure input boost settings
-if [ $rev == "1.0" ] || [ $rev == "1.1" ]; then
-	echo 1382800 0 0 0 0 0 0 0 > /proc/sys/walt/input_boost/input_boost_freq
-else
-	echo 1228800 0 0 0 0 0 0 0 > /proc/sys/walt/input_boost/input_boost_freq
-fi
-echo 100 > /proc/sys/walt/input_boost/input_boost_ms
+echo "0 0 0 0 0 0 0 0" > /proc/sys/walt/input_boost/input_boost_freq
+echo "0" > /proc/sys/walt/input_boost/input_boost_ms
 
 # configure governor settings for gold cluster
 echo "walt" > /sys/devices/system/cpu/cpufreq/policy3/scaling_governor
