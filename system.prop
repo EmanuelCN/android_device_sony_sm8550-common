@@ -30,6 +30,7 @@ debug.sf.auto_latch_unsignaled=false
 debug.hwui.skia_tracing_enabled=false
 debug.hwui.skia_use_perfetto_track_events=false
 debug.sf.disable_client_composition_cache=1
+ro.config.avoid_gfx_accel=true
 
 # IMS
 persist.dbg.volte_avail_ovr=1
