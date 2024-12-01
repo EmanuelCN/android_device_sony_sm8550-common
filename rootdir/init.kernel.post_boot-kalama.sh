@@ -113,7 +113,8 @@ echo $silver_early_upmigrate $gold_early_upmigrate > /proc/sys/walt/sched_early_
 echo 325 > /proc/sys/walt/walt_low_latency_task_threshold
 
 # cpuset parameters
-echo 0-2 > /dev/cpuset/background/cpus
+echo 0-1 > /dev/cpuset/background/cpus
+echo 0-6 > /dev/cpuset/foreground/cpus
 echo 0-2 > /dev/cpuset/system-background/cpus
 
 # Turn off scheduler boost at the end
@@ -122,44 +123,159 @@ echo 0 > /proc/sys/walt/sched_boost
 # Reset the RT boost, which is 1024 (max) by default.
 echo 0 > /proc/sys/kernel/sched_util_clamp_min_rt_default
 
+# Turn off input boost
+echo "0 0 0 0 0 0 0 0" > /proc/sys/walt/input_boost/input_boost_freq
+echo "0" > /proc/sys/walt/input_boost/input_boost_ms
+
 # configure governor settings for silver cluster
 echo "walt" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
-echo 0 > /sys/devices/system/cpu/cpufreq/policy0/walt/down_rate_limit_us
-echo 0 > /sys/devices/system/cpu/cpufreq/policy0/walt/up_rate_limit_us
+echo 1000 > /sys/devices/system/cpu/cpufreq/policy0/walt/down_rate_limit_us
+echo 500 > /sys/devices/system/cpu/cpufreq/policy0/walt/up_rate_limit_us
 if [ $rev == "1.0" ] || [ $rev == "1.1" ]; then
 	echo 1324800 > /sys/devices/system/cpu/cpufreq/policy0/walt/hispeed_freq
 else
 	echo 1267200 > /sys/devices/system/cpu/cpufreq/policy0/walt/hispeed_freq
 fi
 echo 556800 > /sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq
-echo 1 > /sys/devices/system/cpu/cpufreq/policy0/walt/pl
-
-echo "0 0 0 0 0 0 0 0" > /proc/sys/walt/input_boost/input_boost_freq
-echo "0" > /proc/sys/walt/input_boost/input_boost_ms
+echo 0 > /sys/devices/system/cpu/cpufreq/policy0/walt/pl
 
 # configure governor settings for gold cluster
 echo "walt" > /sys/devices/system/cpu/cpufreq/policy3/scaling_governor
-echo 0 > /sys/devices/system/cpu/cpufreq/policy3/walt/down_rate_limit_us
-echo 0 > /sys/devices/system/cpu/cpufreq/policy3/walt/up_rate_limit_us
+echo 1000 > /sys/devices/system/cpu/cpufreq/policy3/walt/down_rate_limit_us
+echo 500 > /sys/devices/system/cpu/cpufreq/policy3/walt/up_rate_limit_us
 if [ $rev == "1.0" ] || [ $rev == "1.1" ]; then
 	echo 1555200 > /sys/devices/system/cpu/cpufreq/policy3/walt/hispeed_freq
 else
 	echo 1555200 > /sys/devices/system/cpu/cpufreq/policy3/walt/hispeed_freq
 fi
 echo 537600 > /sys/devices/system/cpu/cpufreq/policy3/scaling_min_freq
-echo 1 > /sys/devices/system/cpu/cpufreq/policy3/walt/pl
+echo 0 > /sys/devices/system/cpu/cpufreq/policy3/walt/pl
 
 # configure governor settings for gold+ cluster
 echo "walt" > /sys/devices/system/cpu/cpufreq/policy7/scaling_governor
-echo 0 > /sys/devices/system/cpu/cpufreq/policy7/walt/down_rate_limit_us
-echo 0 > /sys/devices/system/cpu/cpufreq/policy7/walt/up_rate_limit_us
+echo 1000 > /sys/devices/system/cpu/cpufreq/policy7/walt/down_rate_limit_us
+echo 500 > /sys/devices/system/cpu/cpufreq/policy7/walt/up_rate_limit_us
 if [ $rev == "1.0" ] || [ $rev == "1.1" ]; then
 	echo 1593600 > /sys/devices/system/cpu/cpufreq/policy7/walt/hispeed_freq
 else
 	echo 1728000 > /sys/devices/system/cpu/cpufreq/policy7/walt/hispeed_freq
 fi
 echo 748800 > /sys/devices/system/cpu/cpufreq/policy7/scaling_min_freq
-echo 1 > /sys/devices/system/cpu/cpufreq/policy7/walt/pl
+echo 0 > /sys/devices/system/cpu/cpufreq/policy7/walt/pl
+
+### I/O & FS tuning ###
+
+# Reduce urgent gc sleep time.
+echo "5" > /dev/sys/fs/by-name/userdata/gc_urgent_sleep_time
+echo "5" > /sys/fs/f2fs/dm-54/gc_urgent_sleep_time
+echo "5" > /sys/fs/f2fs/sda52/gc_urgent_sleep_time
+
+# Tune F2FS.
+echo "20" > /sys/fs/f2fs/dm-54/min_fsync_blocks
+echo "20" > /sys/fs/f2fs/sda52/min_fsync_blocks
+echo "10000" > /sys/fs/f2fs/dm-54/max_discard_issue_time
+echo "10000" > /sys/fs/f2fs/sda52/max_discard_issue_time
+
+# Tune Userdata.
+echo "8" > /dev/sys/fs/by-name/userdata/data_io_flag
+echo "8" > /dev/sys/fs/by-name/userdata/node_io_flag
+echo "128" > /dev/sys/fs/by-name/userdata/seq_file_ra_mul
+
+# Fully disable I/O stats.
+for i in /sys/block/*/queue; do
+  echo "0" > $i/iostats;
+done;
+
+# Set read_ahead to 128kb.
+for i in /sys/block/*/queue; do
+  echo "128" > $i/read_ahead_kb;
+done;
+
+# Set default I/O scheduler to mq-deadline
+echo "mq-deadline" > /sys/block/sda/queue/scheduler
+echo "mq-deadline" > /sys/block/sdb/queue/scheduler
+echo "mq-deadline" > /sys/block/sdc/queue/scheduler
+
+### Memory management tuning ###
+
+# Enable MGLRU
+echo "0x0003" > /sys/kernel/mm/lru_gen/enabled
+echo "5000" > /sys/kernel/mm/lru_gen/min_ttl_ms
+
+# Set vm swapiness to 60.
+echo "60" > /proc/sys/vm/swappiness
+
+# Reduce vm stat interval to reduce jitter.
+echo "20" > /proc/sys/vm/stat_interval
+
+# Tune dirty data writebacks.
+echo "52428800" > /proc/sys/vm/dirty_background_bytes
+echo "209715200" > /proc/sys/vm/dirty_bytes
+
+# Disable page cluster.
+echo "0" > /proc/sys/vm/page-cluster
+
+# Disable transparent hugepage.
+echo "0" > /sys/kernel/mm/transparent_hugepage/khugepaged/defrag
+echo "never" > /sys/kernel/mm/transparent_hugepage/defrag
+echo "never" > /sys/kernel/mm/transparent_hugepage/enabled
+echo "never" > /sys/kernel/mm/transparent_hugepage/shmem_enabled
+echo "0" > /sys/kernel/mm/transparent_hugepage/use_zero_page
+
+# Set compact_unevictable_allowed to 0 in order to avoid potential stalls that can occur during compactions of unevictable pages, preempt_rt sets it to 0.
+echo "0" > /proc/sys/vm/compact_unevictable_allowed
+
+# Set compaction_proactiveness to 0 in order to reduce cpu latency spikes.
+echo "0" > /proc/sys/vm/compaction_proactiveness
+
+# Disable oom dump tasks its not desirable for android where we have numerious tasks.
+echo "0" > /proc/sys/vm/oom_dump_tasks
+
+### Scheduler tuning ###
+
+# Decrease pelt multiplier to 2 (16ms halflife), to improve power consumption, walt is already quick enough.
+echo "2" > /proc/sys/kernel/sched_pelt_multiplier
+
+# Configure uclamp.
+echo "1" > /dev/cpuctl/top-app/cpu.uclamp.latency_sensitive
+echo "80" > /dev/cpuctl/foreground/cpu.uclamp.max
+echo "10" > /dev/cpuctl/background/cpu.uclamp.max
+echo "50" > /dev/cpuctl/system-background/cpu.uclamp.max
+echo "10" > /dev/cpuctl/dex2oat/cpu.uclamp.max
+
+# Setup cpu.shares to throttle background groups (dex2oat - 2.5% bg ~ 5% sysbg ~ 50% foreground ~ 60%).
+echo "1024" > /dev/cpuctl/background/cpu.shares
+echo "10240" > /dev/cpuctl/system-background/cpu.shares
+echo "512" > /dev/cpuctl/dex2oat/cpu.shares
+echo "16384" > /dev/cpuctl/foreground/cpu.shares
+echo "20480" > /dev/cpuctl/system/cpu.shares
+
+# We only have /dev/cpuctl/system/cpu.shares system and background groups holding tasks and the groups below are empty.
+echo "20480" > /dev/cpuctl/camera-daemon/cpu.shares
+echo "20480" > /dev/cpuctl/nnapi-hal/cpu.shares
+echo "20480" > /dev/cpuctl/rt/cpu.shares
+echo "20480" > /dev/cpuctl/top-app/cpu.shares
+
+### Disable debugging & logging ##
+
+# Disable sched stats.
+echo "0" > /proc/sys/kernel/sched_schedstats
+
+# Disable sync on suspend.
+echo "0" > /sys/power/sync_on_suspend
+
+# Disable tracing.
+echo "0" > /sys/kernel/tracing/options/trace_printk
+echo "0" > /sys/kernel/tracing/tracing_on
+
+# Disable scsi logging.
+echo "0" > /proc/sys/dev/scsi/logging_level
+
+# Disable devcoredump.
+echo "1" > /sys/class/devcoredump/disabled
+
+# Reduce ufs auto hibernate time to 1ms.
+echo "1000" > /sys/bus/platform/devices/1d84000.ufshc/auto_hibern8
 
 # configure bus-dcvs
 bus_dcvs="/sys/devices/system/cpu/bus_dcvs"
