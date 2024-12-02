@@ -191,10 +191,10 @@ for i in /sys/block/*/queue; do
   echo "128" > $i/read_ahead_kb;
 done;
 
-# Set default I/O scheduler to mq-deadline
-echo "mq-deadline" > /sys/block/sda/queue/scheduler
-echo "mq-deadline" > /sys/block/sdb/queue/scheduler
-echo "mq-deadline" > /sys/block/sdc/queue/scheduler
+# Set default I/O scheduler to ssg
+echo "ssg" > /sys/block/sda/queue/scheduler
+echo "ssg" > /sys/block/sdb/queue/scheduler
+echo "ssg" > /sys/block/sdc/queue/scheduler
 
 ### Memory management tuning ###
 
