@@ -204,7 +204,6 @@ qti_cpufreq_cdev.ko
 qti_devfreq_cdev.ko
 qti_userspace_cdev.ko
 sdpm_clk.ko
-qcom_edac.ko
 qcom_lpm.ko
 mmc_log_probes.ko
 leds-qti-flash.ko
