@@ -88,10 +88,6 @@ echo "ssg" > /sys/block/sdc/queue/scheduler
 
 ### Memory management tuning ###
 
-# Enable MGLRU
-echo "0x0003" > /sys/kernel/mm/lru_gen/enabled
-echo "5000" > /sys/kernel/mm/lru_gen/min_ttl_ms
-
 # Set vm swapiness to 60.
 echo "60" > /proc/sys/vm/swappiness
 
