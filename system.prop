@@ -27,6 +27,7 @@ debug.sf.enable_hwc_vds=1
 # Dalvik
 dalvik.vm.systemuicompilerfilter=speed 
 dalvik.vm.systemservercompilerfilter=speed 
+ro.dalvik.vm.enable_uffd_gc=true
 
 # Feature flags
 persist.sys.fflag.override.settings_enable_monitor_phantom_procs=false
