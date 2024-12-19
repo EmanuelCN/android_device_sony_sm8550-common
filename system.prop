@@ -34,8 +34,8 @@ persist.sys.fflag.override.settings_enable_monitor_phantom_procs=false
 
 # Graphics
 debug.renderengine.backend=skiavkthreaded
-debug.sf.latch_unsignaled=1
-debug.sf.auto_latch_unsignaled=false
+debug.sf.latch_unsignaled=0
+debug.sf.auto_latch_unsignaled=true
 debug.hwui.skia_tracing_enabled=false
 debug.hwui.skia_use_perfetto_track_events=false
 debug.sf.disable_client_composition_cache=1
