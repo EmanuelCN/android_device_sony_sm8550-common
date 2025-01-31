@@ -21,9 +21,6 @@ camera.disable_zsl_mode=true
 # CNE
 persist.vendor.cne.feature=1
 
-# Display
-debug.sf.enable_hwc_vds=1
-
 # Disable MTE Async for system server
 persist.arm64.memtag.system_server=off
 
