@@ -223,9 +223,7 @@ TARGET_COPY_OUT_VENDOR := vendor
 TARGET_COPY_OUT_VENDOR_DLKM := vendor_dlkm
 
 # PowerShare
-SOONG_CONFIG_NAMESPACES += SONY_POWERSHARE
-SOONG_CONFIG_SONY_POWERSHARE := WIRELESS_TX_ENABLE_PATH
-SOONG_CONFIG_SONY_POWERSHARE_WIRELESS_TX_ENABLE_PATH := /sys/class/qcom-battery/wireless_boost_en
+TARGET_POWERSHARE_PATH := /sys/class/qcom-battery/wireless_boost_en
 
 # Properties
 TARGET_ODM_PROP += $(COMMON_PATH)/odm.prop
