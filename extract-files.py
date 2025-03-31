@@ -18,9 +18,6 @@ from extract_utils.main import (
     ExtractUtilsModule,
 )
 
-def lib_fixup_vendor_suffix(lib: str, partition: str, *args, **kwargs):
-    return f'{lib}_{partition}' if partition == 'vendor' else None
-
 namespace_imports = [
     'hardware/qcom-caf/sm8550',
     'hardware/qcom-caf/wlan',
@@ -30,6 +27,11 @@ namespace_imports = [
     'vendor/qcom/opensource/dataservices',
     'vendor/sony/sm8550-common',
 ]
+
+
+def lib_fixup_vendor_suffix(lib: str, partition: str, *args, **kwargs):
+    return f'{lib}_{partition}' if partition == 'vendor' else None
+
 
 lib_fixups: lib_fixups_user_type = {
     **lib_fixups,
@@ -67,65 +69,80 @@ blob_fixups: blob_fixups_user_type = {
         'vendor/bin/keyprovd',
         'vendor/lib64/libqtikeymint.so',
         'vendor/lib64/librkp.so',
-    ): blob_fixup().add_needed(
+    ): blob_fixup()
+    .add_needed(
         'android.hardware.security.rkp-V3-ndk.so'
     ),
-    'vendor/bin/slim_daemon': blob_fixup().add_needed(
-        'libc++_shared.so'
+    'vendor/bin/slim_daemon': blob_fixup()
+    .add_needed(
+        'libc++_shared.so',
     ),
-    'vendor/etc/msm_irqbalance.conf': blob_fixup().regex_replace(
+    'vendor/etc/msm_irqbalance.conf': blob_fixup()
+    .regex_replace(
         'IGNORED_IRQ=27,23,38', 'IGNORED_IRQ=27,23,38,115,332'
     ),
-    (
-    'vendor/etc/seccomp_policy/atfwd@2.0.policy',
-    'vendor/etc/seccomp_policy/wfdhdcphalservice.policy'
-    ): blob_fixup()
-        .add_line_if_missing('gettid: 1'),
     'vendor/etc/seccomp_policy/qwesd@2.0.policy': blob_fixup()
-        .add_line_if_missing('gettid: 1')
-	.add_line_if_missing('pipe2: 1'),
-    'vendor/lib64/vendor.semc.hardware.extlight-V1-ndk_platform.so': blob_fixup().replace_needed(
-        'android.hardware.light-V1-ndk_platform.so',
-        'android.hardware.light-V1-ndk.so'
+    .add_line_if_missing(
+        'pipe2: 1'
+    ).add_line_if_missing(
+        'gettid: 1'
     ),
-    'system_ext/lib64/libwfdservice.so': blob_fixup().replace_needed(
-        'android.media.audio.common.types-V2-cpp.so',
-        'android.media.audio.common.types-V4-cpp.so'
-    ),
-    'system_ext/lib64/libwfdmmsrc_system.so': blob_fixup().add_needed(
+    'system_ext/lib64/libwfdmmsrc_system.so': blob_fixup()
+    .add_needed(
         'libgui_shim.so'
     ),
     'system_ext/lib64/libwfdnative.so': blob_fixup()
-	.add_needed('libinput_shim.so')
-        .add_needed('libbinder_shim.so'),
-    'vendor/lib64/libqcodec2_core.so': blob_fixup().add_needed(
+    .add_needed(
+        'libbinder_shim.so'
+    )
+    .add_needed(
+        'libinput_shim.so'
+    ),
+    'system_ext/lib64/libwfdservice.so': blob_fixup()
+    .replace_needed(
+        'android.media.audio.common.types-V2-cpp.so', 'android.media.audio.common.types-V4-cpp.so'
+    ),
+    'vendor/lib64/vendor.semc.hardware.extlight-V1-ndk_platform.so': blob_fixup()
+    .replace_needed(
+        'android.hardware.light-V1-ndk_platform.so', 'android.hardware.light-V1-ndk.so'
+    ),
+    (
+    	'vendor/etc/seccomp_policy/atfwd@2.0.policy',
+        'vendor/etc/seccomp_policy/wfdhdcphalservice.policy',
+    ): blob_fixup()
+    .add_line_if_missing(
+        'gettid: 1'
+    ),
+    'vendor/lib64/vendor.libdpmframework.so': blob_fixup()
+    .add_needed(
+        'libhidlbase_shim.so',
+    ),
+    'vendor/lib64/libqcodec2_core.so': blob_fixup()
+    .add_needed(
         'libcodec2_shim.so'
     ),
-    'vendor/lib64/vendor.libdpmframework.so': blob_fixup().add_needed(
-	'libhidlbase_shim.so'
+    # < 00009680: 6370 7566 7265 712d 6370 7525 6400 0000  cpufreq-cpu%d...
+    # < 00009690: 0000 0073 5f61 7070 5f73 746f 7000 2573  ...s_app_stop.%s
+    # ---
+    # > 00009680: 7468 6572 6d61 6c2d 6370 7566 7265 712d  thermal-cpufreq-
+    # > 00009690: 2564 0073 5f61 7070 5f73 746f 7000 2573  %d.s_app_stop.%s
+    'vendor/bin/thermal-engine-v2': blob_fixup()
+    .binary_regex_replace(b'thermal-cpufreq-%d\x00s_app_stop\x00%s',
+                          b'cpufreq-cpu%d\x00\x00\x00\x00\x00\x00s_app_stop\x00%s'),
+    'vendor/lib64/hw/fingerprint.default.so': blob_fixup()
+    .binary_regex_replace(b'bix.fingerprint', b'fingerprint\x00\x00\x00\x00'),
+    (
+        'vendor/lib64/libqcrilNr.so',
+        'vendor/lib64/libril-db.so',
+    ): blob_fixup().binary_regex_replace(
+        rb'persist\.vendor\.radio\.poweron_opt',
+        b'persist.vendor.radio.poweron_ign',
     ),
-     # < 00009680: 6370 7566 7265 712d 6370 7525 6400 0000  cpufreq-cpu%d...
-     # < 00009690: 0000 0073 5f61 7070 5f73 746f 7000 2573  ...s_app_stop.%s
-     # ---
-     # > 00009680: 7468 6572 6d61 6c2d 6370 7566 7265 712d  thermal-cpufreq-
-     # > 00009690: 2564 0073 5f61 7070 5f73 746f 7000 2573  %d.s_app_stop.%s
-     'vendor/bin/thermal-engine-v2': blob_fixup()
-     .binary_regex_replace(b'thermal-cpufreq-%d\x00s_app_stop\x00%s',
-                           b'cpufreq-cpu%d\x00\x00\x00\x00\x00\x00s_app_stop\x00%s'),
-     'vendor/lib64/hw/fingerprint.default.so': blob_fixup()
-     .binary_regex_replace(b'bix.fingerprint', b'fingerprint\x00\x00\x00\x00'),
-     (
-         'vendor/lib64/libqcrilNr.so',
-         'vendor/lib64/libril-db.so',
-     ): blob_fixup().binary_regex_replace(
-         rb'persist\.vendor\.radio\.poweron_opt',
-         b'persist.vendor.radio.poweron_ign',
-     ),
-     'vendor/lib64/nfc_nci.nqx.default.hw.so': blob_fixup()
-     .add_needed(
-         'libbase_shim.so'
-     ),
-}
+    'vendor/lib64/nfc_nci.nqx.default.hw.so': blob_fixup()
+    .add_needed(
+        'libbase_shim.so'
+    ),
+}  # fmt: skip
 
 module = ExtractUtilsModule(
     'sm8550-common',
