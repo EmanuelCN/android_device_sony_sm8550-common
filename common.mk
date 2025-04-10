@@ -38,6 +38,9 @@ USE_DEX2OAT_DEBUG := false
 # Reduce system server verbosity
 PRODUCT_SYSTEM_SERVER_DEBUG_INFO := false
 
+# AudioFX
+TARGET_EXCLUDES_AUDIOFX := true
+
 # A/B
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
 
