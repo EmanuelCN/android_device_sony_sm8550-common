@@ -564,7 +564,7 @@ PRODUCT_PACKAGES += \
 
 # Touch
 PRODUCT_PACKAGES += \
-    vendor.lineage.touch@1.0-service.sony
+    vendor.lineage.touch-service.sony
 
 # Trusted User Interface
 PRODUCT_PACKAGES += \
