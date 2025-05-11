@@ -158,12 +158,6 @@ on property:sys.boot_completed=1
 on charger
     start kernel-post-boot
 
-service vendor.msm_irqbalance /vendor/bin/msm_irqbalance -f /system/vendor/etc/msm_irqbalance.conf
-    class core
-    user root
-    group root
-    disabled
-
 service gki.modprobe /vendor/bin/system_dlkm_modprobe.sh
     class main
     user root
