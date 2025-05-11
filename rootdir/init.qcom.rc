@@ -814,14 +814,6 @@ on charger
     setprop persist.sys.usb.config mass_storage
     start qcom-post-boot
 
-#add poweroffhandler
-service poweroffhandler /system/vendor/bin/poweroffhandler
-    class core
-    user media
-    group graphics audio
-    disabled
-    oneshot
-
 service time_daemon /vendor/bin/time_daemon
     class main
     user system
