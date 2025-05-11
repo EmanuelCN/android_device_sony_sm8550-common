@@ -301,9 +301,6 @@ on post-fs-data
     mkdir /data/vendor/wifi/wpa 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
 
-    # Create the directories used by WiGig Sensing
-    mkdir /data/vendor/sensing 0770 system wifi
-
     # Create the directories used by CnE subsystem
     mkdir /data/vendor/connectivity 0771 radio radio
     chown radio radio /data/vendor/connectivity
@@ -566,13 +563,6 @@ service wigignpt /vendor/bin/wigignpt
 
 on property:persist.vendor.wigig.npt.enable=1
     start wigignpt
-
-service vendor.sensingdaemon /vendor/bin/sensingdaemon
-    class hal
-    socket wigig/sensingdaemon stream 660 system wifi
-    user system
-    group wifi
-    disabled
 
 service dhcpcd_wlan0 /system/bin/dhcpcd -ABKLG
     class late_start
