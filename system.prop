@@ -15,6 +15,9 @@ persist.bluetooth.sbc_hd_higher_bitrate=1
 # Adaptive Suspend
 suspend.short_suspend_threshold_millis=5000
 
+# Battery
+ro.config.small_battery=true
+
 # Camera
 camera.disable_zsl_mode=true
 
