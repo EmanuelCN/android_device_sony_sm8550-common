@@ -26,7 +26,6 @@ persist.arm64.memtag.system_server=off
 
 # Dalvik
 dalvik.vm.systemuicompilerfilter=speed 
-ro.dalvik.vm.enable_uffd_gc=true
 
 # Feature flags
 persist.sys.fflag.override.settings_enable_monitor_phantom_procs=false
