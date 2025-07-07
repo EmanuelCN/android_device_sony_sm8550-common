@@ -117,6 +117,12 @@ echo "0" > /proc/sys/vm/compaction_proactiveness
 # Disable oom dump tasks its not desirable for android where we have numerious tasks.
 echo "0" > /proc/sys/vm/oom_dump_tasks
 
+### Cpuidle ###
+
+# Disable sleep and prediction in qcom-lpm
+echo "1" > /sys/devices/system/cpu/qcom_lpm/parameters/sleep_disabled
+echo "1" > /sys/devices/system/cpu/qcom_lpm/parameters/prediction_disabled
+
 ### Scheduler tuning ###
 
 # Decrease pelt multiplier to 2 (16ms halflife), to improve power consumption.
