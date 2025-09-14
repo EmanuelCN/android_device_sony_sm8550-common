@@ -124,23 +124,23 @@ echo "2" > /proc/sys/kernel/sched_pelt_multiplier
 
 # Configure uclamp.
 echo "1" > /dev/cpuctl/top-app/cpu.uclamp.latency_sensitive
-echo "80" > /dev/cpuctl/foreground/cpu.uclamp.max
-echo "10" > /dev/cpuctl/background/cpu.uclamp.max
+echo "100" > /dev/cpuctl/foreground/cpu.uclamp.max
+echo "30" > /dev/cpuctl/background/cpu.uclamp.max
 echo "50" > /dev/cpuctl/system-background/cpu.uclamp.max
-echo "10" > /dev/cpuctl/dex2oat/cpu.uclamp.max
+echo "20" > /dev/cpuctl/dex2oat/cpu.uclamp.max
 
 # Setup cpu.shares to throttle background groups (dex2oat - 2.5% bg ~ 5% sysbg ~ 50% foreground ~ 60%).
 echo "1024" > /dev/cpuctl/background/cpu.shares
 echo "10240" > /dev/cpuctl/system-background/cpu.shares
 echo "512" > /dev/cpuctl/dex2oat/cpu.shares
-echo "16384" > /dev/cpuctl/foreground/cpu.shares
-echo "20480" > /dev/cpuctl/system/cpu.shares
 
 # We only have /dev/cpuctl/system/cpu.shares system and background groups holding tasks and the groups below are empty.
 echo "20480" > /dev/cpuctl/camera-daemon/cpu.shares
 echo "20480" > /dev/cpuctl/nnapi-hal/cpu.shares
 echo "20480" > /dev/cpuctl/rt/cpu.shares
 echo "20480" > /dev/cpuctl/top-app/cpu.shares
+echo "20480" > /dev/cpuctl/foreground/cpu.shares
+echo "20480" > /dev/cpuctl/system/cpu.shares
 
 ### Disable debugging & logging ##
 
