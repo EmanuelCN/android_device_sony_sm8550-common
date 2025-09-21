@@ -29,6 +29,11 @@ persist.arm64.memtag.system_server=off
 
 # Dalvik
 dalvik.vm.systemuicompilerfilter=speed 
+dalvik.vm.usap_pool_enabled=true 
+dalvik.vm.usap_refill_threshold=1
+dalvik.vm.usap_pool_size_max=10 
+dalvik.vm.usap_pool_size_min=1 
+dalvik.vm.usap_pool_refill_delay_ms=3000
 
 # Feature flags
 persist.sys.fflag.override.settings_enable_monitor_phantom_procs=false
