@@ -36,7 +36,6 @@ sysmon_subsystem_stats.ko
 subsystem_sleep_stats.ko
 adsp_sleepmon.ko
 eud.ko
-microdump_collector.ko
 llcc_perfmon.ko
 cdsp-loader.ko
 pmic-pon-log.ko
@@ -57,8 +56,6 @@ gh_tlmm_vm_mem_access.ko
 sps_drv.ko
 spss_utils.ko
 spcom.ko
-qcom_va_minidump.ko
-qbt_handler.ko
 qti-fixed-regulator.ko
 qti-ocp-notifier.ko
 hvc_gunyah.ko
