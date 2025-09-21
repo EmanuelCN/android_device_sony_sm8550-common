@@ -2,3 +2,8 @@
 ro.config.media_vol_steps=15
 ro.config.vc_call_vol_steps=8
 
+# MTE
+persist.arm64.memtag.app.com.android.se=off 
+persist.arm64.memtag.app.com.google.android.bluetooth=off 
+persist.arm64.memtag.app.com.android.nfc=off 
+persist.arm64.memtag.process.system_server=off
