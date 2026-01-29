@@ -46,9 +46,10 @@ echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy3/scaling_governor
 echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy7/scaling_governor
 
 # Cpuset parameters
-echo 0-1 > /dev/cpuset/background/cpus
-echo 0-6 > /dev/cpuset/foreground/cpus
+echo 0-2 > /dev/cpuset/restricted/cpus
+echo 0-2 > /dev/cpuset/background/cpus
 echo 0-2 > /dev/cpuset/system-background/cpus
+echo 0-6 > /dev/cpuset/foreground/cpus
 
 # Reset the RT boost, which is 1024 (max) by default.
 echo 0 > /proc/sys/kernel/sched_util_clamp_min_rt_default
