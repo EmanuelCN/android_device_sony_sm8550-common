@@ -1,43 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
-
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-
-          http://www.apache.org/licenses/LICENSE-2.0
-
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
 -->
+<resources>
+    <!-- Enables or disables haptic effect when the text insertion/selection handle is moved
+         manually by the user. Off by default, since the expected haptic feedback may not be
+         available on some devices. -->
+    <bool name="config_enableHapticTextHandle">true</bool>
 
-<!-- These resources are around just to allow their values to be customized
-     for different hardware and product builds.  Do not translate. -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- If this is true, the screen will come on when you unplug usb/power/whatever. -->
-    <bool name="config_unplugTurnsOnScreen">true</bool>
-
-    <!-- Boolean indicating if restoring network selection should be skipped -->
-    <!-- The restoring is handled by modem if it is true-->
-    <bool translatable="false" name="skip_restoring_network_selection">true</bool>
-
-    <!-- Set to true to add links to Cell Broadcast app from Settings and MMS app. -->
-    <bool name="config_cellBroadcastAppLinks">false</bool>
-
-    <!-- MMS user agent string -->
-    <string name="config_mms_user_agent" translatable="false">Android-Mms/2.0</string>
-
-    <!-- Whether a software navigation bar should be shown. NOTE: in the future this may be
-         autodetected from the Configuration. -->
-    <bool name="config_showNavigationBar">true</bool>
-
-    <!-- MMS user agent prolfile url -->
-    <string name="config_mms_user_agent_profile_url">http://www.google.com/oha/rdf/ua-profile-kila.xml</string>
-
-     <!-- This string array should be overridden by the device to present a list of network
+    <!-- This string array should be overridden by the device to present a list of network
          attributes.  This is used by the connectivity manager to decide which networks can coexist
          based on the hardware -->
     <!-- An Array of "[Connection name],[ConnectivityManager.TYPE_xxxx],
@@ -46,7 +18,11 @@
          before automatically restore the default connection.  Set -1 if the connection
          does not require auto-restore. -->
     <!-- the 6th element indicates boot-time dependency-met value. -->
-    <string-array translatable="false" name="networkAttributes">
+    <!-- NOTE: The telephony module is no longer reading the configuration below for available
+         APN types.  The set of APN types and relevant settings are specified within the telephony
+         module and are non-configurable.  Whether or not data connectivity over a cellular network
+         is available at all is controlled by the flag: config_moble_data_capable. -->
+    <string-array name="networkAttributes">
         <item>wifi,1,1,1,-1,true</item>
         <item>mobile,0,0,0,-1,true</item>
         <item>mobile_mms,2,0,2,60000,true</item>
@@ -66,253 +42,69 @@
          based on the hardware -->
     <!-- An Array of "[ConnectivityManager connectionType],
                       [# simultaneous connection types]"  -->
-    <string-array translatable="false" name="radioAttributes">
+    <string-array name="radioAttributes">
         <item>"1,1"</item>
         <item>"0,1"</item>
         <item>"7,1"</item>
     </string-array>
 
-    <!-- Number of physical SIM slots on the device. This includes both eSIM and pSIM slots, and
-         is not necessarily the same as the number of phones/logical modems supported by the device.
-         For example, a multi-sim device can have 2 phones/logical modems, but 3 physical slots,
-         or a single SIM device can have 1 phones/logical modems, but 2 physical slots (one eSIM
-         and one pSIM) -->
-    <integer name="config_num_physical_slots">2</integer>
+    <!-- This setting is deprecated, please use
+         com.android.networkstack.tethering.R.array.config_tether_usb_regexs instead. -->
+    <string-array name="config_tether_usb_regexs">
+        <item>"usb\\d"</item>
+        <item>"rndis\\d"</item>
+    </string-array>
 
-    <!-- Whether WiFi display is supported by this device.
-         There are many prerequisites for this feature to work correctly.
-         Here are a few of them:
-         * The WiFi radio must support WiFi P2P.
-         * The WiFi radio must support concurrent connections to the WiFi display and
-           to an access point.
-         * The Audio Flinger audio_policy.conf file must specify a rule for the "r_submix"
-           remote submix module.  This module is used to record and stream system
-           audio output to the WiFi display encoder in the media server.
-         * The remote submix module "audio.r_submix.default" must be installed on the device.
-         * The device must be provisioned with HDCP keys (for protected content).
-    -->
-    <bool name="config_enableWifiDisplay">true</bool>
+    <!-- Flag indicating whether we should enable the automatic brightness.
+         Software implementation will be used if config_hardware_auto_brightness_available is not set -->
+    <bool name="config_automatic_brightness_available">true</bool>
 
-    <!-- Set to true if the wifi display supports compositing content stored
-         in gralloc protected buffers.  For this to be true, there must exist
-         a protected hardware path for surface flinger to composite and send
-         protected buffers to the wifi display video encoder.
-         If this flag is false, we advise applications not to use protected
-         buffers (if possible) when presenting content to a wifi display because
-         the content may be blanked.
-         This flag controls whether the {@link Display#FLAG_SUPPORTS_PROTECTED_BUFFERS}
-         flag is set for wifi displays.
-    -->
-    <bool name="config_wifiDisplaySupportsProtectedBuffers">true</bool>
+    <!-- If this is true, the screen will come on when you unplug usb/power/whatever. -->
+    <bool name="config_unplugTurnsOnScreen">true</bool>
 
     <!-- Indicate whether closing the lid causes the device to go to sleep and opening
          it causes the device to wake up.
          The default is false. -->
     <bool name="config_lidControlsSleep">true</bool>
 
-    <!-- ComponentName of a dream to show whenever the system would otherwise have
-         gone to sleep.  When the PowerManager is asked to go to sleep, it will instead
-         try to start this dream if possible.  The dream should typically call startDozing()
-         to put the display into a low power state and allow the application processor
-         to be suspended.  When the dream ends, the system will go to sleep as usual.
-         Specify the component name or an empty string if none.
-
-         Note that doze dreams are not subject to the same start conditions as ordinary dreams.
-         Doze dreams will run whenever the power manager is in a dozing state. -->
-    <string name="config_dozeComponent">com.android.systemui/com.android.systemui.doze.DozeService</string>
-
-    <!-- Control whether the always on display mode is available. This should only be enabled on
-         devices where the display has been tuned to be power efficient in DOZE and/or DOZE_SUSPEND
-         states. -->
-    <bool name="config_dozeAlwaysOnDisplayAvailable">true</bool>
-
-    <!-- Control whether the always on display mode is enabled by default. This value will be used
-         during initialization when the setting is still null. -->
-    <bool name="config_dozeAlwaysOnEnabled">false</bool>
-
-    <!-- Power Management: Specifies whether to decouple the auto-suspend state of the
-         device from the display on/off state.
-
-         When false, autosuspend_disable() will be called before the display is turned on
-         and autosuspend_enable() will be called after the display is turned off.
-         This mode provides best compatibility for devices using legacy power management
-         features such as early suspend / late resume.
-
-         When true, autosuspend_display() and autosuspend_enable() will be called
-         independently of whether the display is being turned on or off.  This mode
-         enables the power manager to suspend the application processor while the
-         display is on.
-
-         This resource should be set to "true" when a doze component has been specified
-         to maximize power savings but not all devices support it.
-
-         Refer to autosuspend.h for details.
-    -->
-    <bool name="config_powerDecoupleAutoSuspendModeFromDisplay">true</bool>
-
-    <!-- Power Management: Specifies whether to decouple the interactive state of the
-         device from the display on/off state.
-         When false, setInteractive(..., true) will be called before the display is turned on
-         and setInteractive(..., false) will be called after the display is turned off.
-         This mode provides best compatibility for devices that expect the interactive
-         state to be tied to the display state.
-         When true, setInteractive(...) will be called independently of whether the display
-         is being turned on or off.  This mode enables the power manager to reduce
-         clocks and disable the touch controller while the display is on.
-         This resource should be set to "true" when a doze component has been specified
-         to maximize power savings but not all devices support it.
-         Refer to power.h for details.
-    -->
-    <bool name="config_powerDecoupleInteractiveModeFromDisplay">true</bool>
-
-    <!-- Screen brightness used to dim the screen while dozing in a very low power state.
-         May be less than the minimum allowed brightness setting
-         that can be set by the user. -->
-    <item name="config_screenBrightnessDozeFloat" format="float" type="dimen">0.06667</item>
-
-    <!-- List of regexpressions describing the interface (if any) that represent tetherable
-         USB interfaces.  If the device doesn't want to support tething over USB this should
-         USB interfaces.  If the device doesn't want to support tething over USB this should
-         be empty.  An example would be "usb.*" -->
-    <string-array translatable="false" name="config_tether_usb_regexs">
-        <item>"usb\\d"</item>
-        <item>"rndis\\d"</item>
-    </string-array>
-
-    <!-- Configure mobile tcp buffer sizes in the form:
-         rat-name:rmem_min,rmem_def,rmem_max,wmem_min,wmem_def,wmem_max
-         If no value is found for the rat-name in use, the system default will be applied.
-    -->
-    <string-array name="config_mobile_tcp_buffers">
-        <item>5gnr:2097152,6291456,16777216,512000,2097152,8388608</item>
-        <item>lte:2097152,4194304,8388608,262144,524288,1048576</item>
-        <item>lte_ca:4096,6291456,12582912,4096,1048576,2097152</item>
-        <item>umts:4094,87380,1220608,4096,16384,1220608</item>
-        <item>hspa:4094,87380,1220608,4096,16384,1220608</item>
-        <item>hsupa:4094,87380,1220608,4096,16384,1220608</item>
-        <item>hsdpa:4094,87380,1220608,4096,16384,1220608</item>
-        <item>hspap:4094,87380,1220608,4096,16384,1220608</item>
-        <item>edge:4093,26280,35040,4096,16384,35040</item>
-        <item>gprs:4092,8760,11680,4096,8760,11680</item>
-        <item>evdo:4094,87380,524288,4096,16384,262144</item>
-    </string-array>
-
-    <!-- Flag specifying whether VoLTE is available on device -->
-    <bool name="config_device_volte_available">true</bool>
-
-    <!-- Flag specifying whether VT is available on device -->
-    <bool name="config_device_vt_available">true</bool>
-
-    <!-- Flag specifying whether WFC over IMS is available on device -->
-    <bool name="config_device_wfc_ims_available">true</bool>
-
-    <!-- IWLAN data service package name to bind to by default. If none is specified in an overlay, an
-         empty string is passed in -->
-    <string name="config_wlan_data_service_package">vendor.qti.iwlan</string>
-
-    <!-- IWLAN network service package name to bind to by default. If none is specified in an overlay, an
-         empty string is passed in -->
-    <string name="config_wlan_network_service_package">vendor.qti.iwlan</string>
-
-    <!-- Telephony qualified networks service package name to bind to by default. -->
-    <string name="config_qualified_networks_service_package">vendor.qti.iwlan</string>
-
-    <!-- Flag specifying whether or not IMS will use the ImsResolver dynamically -->
-    <bool name="config_dynamic_bind_ims">true</bool>
-
-    <!-- Config determines whether to update phone object when voice registration
-         state changes. Voice radio tech change will always trigger an update of
-         phone object irrespective of this config -->
-    <bool name="config_switch_phone_on_voice_reg_state_change">false</bool>
-
-    <!-- Boolean indicating if current platform supports BLE peripheral mode -->
-    <bool name="config_bluetooth_le_peripheral_mode_supported">true</bool>
-
-    <!-- Boolean indicating if current platform supports HFP inband ringing -->
-    <bool name="config_bluetooth_hfp_inband_ringing_support">true</bool>
-
-    <!-- Flag indicating if the speed up audio on mt call code should be executed -->
-    <bool name="config_speed_up_audio_on_mt_calls">true</bool>
-
-    <!-- Shutdown if the battery temperature exceeds (this value * 0.1) Celsius. -->
-    <integer name="config_shutdownBatteryTemperature">680</integer>
-
-    <!-- The default intensity level for haptic feedback. See
-         Settings.System.HAPTIC_FEEDBACK_INTENSITY more details on the constant values and
-         meanings. -->
-    <integer name="config_defaultHapticFeedbackIntensity">3</integer>
-    <!-- The default intensity level for notification vibrations. See
-         Settings.System.NOTIFICATION_VIBRATION_INTENSITY more details on the constant values and
-         meanings. -->
-    <integer name="config_defaultNotificationVibrationIntensity">3</integer>
-    <!-- The default intensity level for notification vibrations. See
-         Settings.System.RING_VIBRATION_INTENSITY more details on the constant values and
-         meanings. -->
-    <integer name="config_defaultRingVibrationIntensity">3</integer>
-
-    <!-- Enables or disables haptic effect when the text insertion/selection handle is moved
-          manually by the user. Off by default, since the expected haptic feedback may not be
-          available on some devices. -->
-    <bool name="config_enableHapticTextHandle">true</bool>
-
-    <!-- Default list of files pinned by the Pinner Service -->
-    <string-array translatable="false" name="config_defaultPinnerServiceFiles">
-        <item>"/system/framework/arm64/boot-framework.oat"</item>
-        <item>"/system/framework/framework.jar"</item>
-        <item>"/system/framework/oat/arm64/services.odex"</item>
-        <item>"/system/framework/services.jar"</item>
-        <item>"/apex/com.android.art/javalib/core-oj.jar"</item>
-        <item>"/apex/com.android.art/javalib/core-libart.jar"</item>
-        <item>"/system_ext/priv-app/SystemUI/SystemUI.apk"</item>
-        <item>"/system_ext/priv-app/SystemUI/oat/arm64/SystemUI.odex"</item>
-        <item>"/system/bin/surfaceflinger"</item>
-        <item>"/system/framework/framework.jar"</item>
-        <item>"/system/framework/services.jar"</item>
-        <item>"/system/lib64/libEGL.so"</item>
-        <item>"/system/lib64/libGLESv2.so"</item>
-        <item>"/system/lib64/libhwui.so"</item>
-        <item>"/vendor/lib64/libcamxexternalformatutils.so"</item>
-        <item>"/vendor/lib64/libipebpsstriping170.so"</item>
-        <item>"/vendor/lib64/libipebpsstriping.so"</item>
-        <item>"/vendor/lib64/egl/libEGL_adreno.so"</item>
-        <item>"/vendor/lib64/egl/libGLESv2_adreno.so"</item>
-        <item>"/vendor/lib64/libCB.so"</item>
-        <item>"/vendor/lib64/libgsl.so"</item>
-        <item>"/vendor/lib64/libllvm-glnext.so"</item>
-        <item>"/vendor/lib64/libllvm-qcom.so"</item>
-        <item>"/vendor/lib64/libllvm-qgl.so"</item>
-    </string-array>
-
-    <!-- Should the pinner service pin the Camera application? -->
-    <bool name="config_pinnerCameraApp">true</bool>
-
-    <!-- Bytes that the PinnerService will pin for Home app -->
-    <integer name="config_pinnerHomePinBytes">6291456</integer>
-
-    <!-- List of files pinned by the Pinner Service with the JIT Zygote boot image b/119800099 -->
-    <string-array translatable="false" name="config_jitzygoteBootImagePinnerServiceFiles">
-        <item>"/system/framework/framework.jar"</item>
-        <item>"/system/framework/services.jar"</item>
-        <item>"/apex/com.android.art/javalib/core-oj.jar"</item>
-        <item>"/apex/com.android.art/javalib/core-libart.jar"</item>
-        <item>"/apex/com.android.media/javalib/updatable-media.jar"</item>
-        <item>"/system_ext/priv-app/SystemUI/SystemUI.apk"</item>
-        <item>"/system/bin/surfaceflinger"</item>
-    </string-array>
-
-    <!-- When true use the linux /dev/input/event subsystem to detect the switch changes
-         on the headphone/microphone jack. When false use the older uevent framework. -->
-    <bool name="config_useDevInputEventForAudioJack">true</bool>
-
-    <!-- Whether the Unprocessed audio source supports the required frequency range and level -->
-    <bool name="config_supportAudioSourceUnprocessed">true</bool>
-
-    <!-- True if the device supports Sustained Performance Mode-->
-    <bool name="config_sustainedPerformanceModeSupported">true</bool>
-
     <!-- Boolean indicating whether the HWC setColorTransform function can be performed efficiently
          in hardware. -->
     <bool name="config_setColorTransformAccelerated">true</bool>
+
+    <!-- Default color temperature, in Kelvin, to tint the screen when Night display is
+         activated. -->
+    <integer name="config_nightDisplayColorTemperatureDefault">3339</integer>
+
+    <string-array name="config_nightDisplayColorTemperatureCoefficientsNative">
+        <item>0.0000000000</item>
+        <item>0.0000000000</item>
+        <item>1.0000000000</item>
+        <item>0.0000000281</item>
+        <item>0.0001170904</item>
+        <item>0.0531398842</item>
+        <item>0.0000001719</item>
+        <item>-0.0006027865</item>
+        <item>0.5963358908</item>
+    </string-array>
+
+    <string-array name="config_nightDisplayColorTemperatureCoefficients">
+        <item>0.0000000000</item>
+        <item>0.0000000000</item>
+        <item>1.0000000000</item>
+        <item>0.0000000281</item>
+        <item>0.0001170904</item>
+        <item>0.0531398842</item>
+        <item>0.0000001719</item>
+        <item>-0.0006027865</item>
+        <item>0.5963358908</item>
+    </string-array>
+
+    <!-- Indicate available ColorDisplayManager.COLOR_MODE_xxx. -->
+    <integer-array name="config_availableColorModes">
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
+    </integer-array>
 
     <!-- Indicate whether to allow the device to suspend when the screen is off
          due to the proximity sensor.  This resource should only be set to true
@@ -321,25 +113,65 @@
          The default is false. -->
     <bool name="config_suspendWhenScreenOffDueToProximity">true</bool>
 
-    <!-- Flag indicating whether the we should enable the automatic brightness in Settings.
-         Software implementation will be used if config_hardware_auto_brightness_available is not set -->
-    <bool name="config_automatic_brightness_available">true</bool>
+    <!-- The default intensity level for haptic feedback. See
+         Settings.System.HAPTIC_FEEDBACK_INTENSITY more details on the constant values and
+         meanings. -->
+    <integer name="config_defaultHapticFeedbackIntensity">3</integer>
 
-    <!-- Array of light sensor LUX values to define our levels for auto backlight brightness support.
+    <!-- The default intensity level for notification vibrations. See
+         Settings.System.NOTIFICATION_VIBRATION_INTENSITY more details on the constant values and
+         meanings. -->
+    <integer name="config_defaultNotificationVibrationIntensity">3</integer>
+
+    <!-- The default intensity level for ring vibrations. See
+         Settings.System.RING_VIBRATION_INTENSITY more details on the constant values and
+         meanings. -->
+    <integer name="config_defaultRingVibrationIntensity">3</integer>
+
+    <!-- Is the device capable of hot swapping an UICC Card -->
+    <bool name="config_hotswapCapable">true</bool>
+
+    <!-- Minimum screen brightness setting allowed by power manager.
+         -2 is invalid so setting will resort to int value specified above.
+         Set this to 0.0 to allow screen to go to minimal brightness.
+         The user is forbidden from setting the brightness below this level. -->
+    <dimen name="config_screenBrightnessSettingMinimumFloat" format="float">0.002</dimen>
+
+    <!-- Maximum screen brightness allowed by the power manager.
+         -2 is invalid so setting will resort to int value specified above.
+         Set this to 1.0 for maximum brightness range.
+         The user is forbidden from setting the brightness above this level. -->
+    <dimen name="config_screenBrightnessSettingMaximumFloat" format="float">1.0</dimen>
+
+    <!-- Default screen brightness setting set.
+         -2 is invalid so setting will resort to int value specified above.
+         Must be in the range specified by minimum and maximum. -->
+    <dimen name="config_screenBrightnessSettingDefaultFloat" format="float">0.4</dimen>
+
+    <!-- Screen brightness used to dim the screen while dozing in a very low power state.
+         May be less than the minimum allowed brightness setting
+         that can be set by the user. -->
+    <dimen name="config_screenBrightnessDozeFloat" format="float">0.06667</dimen>
+
+    <!-- Array of light sensor lux values to define our levels for auto backlight brightness support.
          The N entries of this array define N + 1 control points as follows:
          (1-based arrays)
-         Point 1: (0, value[1]): lux <= 0
-         Point 2: (level[1], value[2]): 0 < lux <= level[1]
-         Point 3: (level[2], value[3]): level[2] < lux <= level[3]
+
+         Point 1:            (0, value[1]):             lux <= 0
+         Point 2:     (level[1], value[2]):  0        < lux <= level[1]
+         Point 3:     (level[2], value[3]):  level[2] < lux <= level[3]
          ...
-         Point N+1: (level[N], value[N+1]): level[N] < lux
+         Point N+1: (level[N], value[N+1]):  level[N] < lux
+
          The control points must be strictly increasing.  Each control point
          corresponds to an entry in the brightness backlight values arrays.
-         For example, if LUX == level[1] (first element of the levels array)
+         For example, if lux == level[1] (first element of the levels array)
          then the brightness will be determined by value[2] (second element
          of the brightness values array).
+
          Spline interpolation is used to determine the auto-brightness
-         backlight values for LUX levels between these control points.
+         backlight values for lux levels between these control points.
+
          Must be overridden in platform specific overlays -->
     <integer-array name="config_autoBrightnessLevels">
         <item>1</item>
@@ -374,7 +206,7 @@
          This array should have size one greater than the size of the config_autoBrightnessLevels
          array. The brightness values must be non-negative and non-decreasing. This must be
          overridden in platform specific overlays -->
-    <integer-array name="config_autoBrightnessDisplayValuesNits">
+    <array name="config_autoBrightnessDisplayValuesNits">
         <item>5</item>
         <item>5</item>
         <item>5</item>
@@ -394,142 +226,165 @@
         <item>600</item>
         <item>720</item>
         <item>1000</item>
-    </integer-array>
+    </array>
 
-    <!-- Screen brightness used to dim the screen when the user activity
-         timeout expires.  May be less than the minimum allowed brightness setting
-         that can be set by the user. -->
-    <integer name="config_screenBrightnessDim">10</integer>
+    <!-- Boolean indicating if restoring network selection should be skipped -->
+    <!-- The restoring is handled by modem if it is true-->
+    <bool name="skip_restoring_network_selection">true</bool>
 
-    <!-- Default screen brightness setting set.
-         -2 is invalid so setting will resort to int value specified above.
-         Must be in the range specified by minimum and maximum. -->
-    <item name="config_screenBrightnessSettingDefaultFloat" format="float" type="dimen">0.4</item>
+    <!-- MMS user agent string, for example OemNameDeviceName
+         If the string contains a '%s' format string then that substring will be replaced
+         with the value of Build.MODEL , ie
+         <string name="config_mms_user_agent">OemName%s</string> -->
+    <string name="config_mms_user_agent">Android-Mms/2.0</string>
 
-    <!-- Maximum screen brightness allowed by the power manager.
-         -2 is invalid so setting will resort to int value specified above.
-         Set this to 1.0 for maximum brightness range.
-         The user is forbidden from setting the brightness above this level. -->
-    <item name="config_screenBrightnessSettingMaximumFloat" format="float" type="dimen">1.0</item>
+    <!-- MMS user agent prolfile url, for example https://uaprof.oem_name.com/DeviceName.xml
+         if the string contains a '%s' format string then that substring will be replaced
+         with the value of Build.MODEL , ie https://uaprof.oem_name.com/%s.xml -->
+    <string name="config_mms_user_agent_profile_url">http://www.google.com/oha/rdf/ua-profile-kila.xml</string>
 
-    <!-- Minimum screen brightness setting allowed by power manager.
-         -2 is invalid so setting will resort to int value specified above.
-         Set this to 0.0 to allow screen to go to minimal brightness.
-         The user is forbidden from setting the brightness below this level. -->
-    <item name="config_screenBrightnessSettingMinimumFloat" format="float" type="dimen">0.002</item>
+    <!-- Whether a software navigation bar should be shown. NOTE: in the future this may be
+         autodetected from the Configuration. -->
+    <bool name="config_showNavigationBar">true</bool>
 
-    <!-- Doze: should the TYPE_PICK_UP_GESTURE sensor be used as a pulse signal. -->
-    <bool name="config_dozePulsePickup">true</bool>
+    <!-- ComponentName of a dream to show whenever the system would otherwise have
+         gone to sleep.  When the PowerManager is asked to go to sleep, it will instead
+         try to start this dream if possible.  The dream should typically call startDozing()
+         to put the display into a low power state and allow the application processor
+         to be suspended.  When the dream ends, the system will go to sleep as usual.
+         Specify the component name or an empty string if none.
 
-    <!-- If true, the display will be shifted around in ambient mode. -->
-    <bool name="config_enableBurnInProtection">true</bool>
-
-    <!-- Whether device supports double tap to wake -->
-    <bool name="config_supportDoubleTapWake">true</bool>
-
-    <!-- Minimum allowable screen brightness to use in a very dark room.
-         This value sets the floor for the darkest possible auto-brightness
-         adjustment.  It is expected to be somewhat less than the first entry in
-         config_autoBrightnessLcdBacklightValues so as to allow the user to have
-         some range of adjustment to dim the screen further than usual in very
-         dark rooms. The contents of the screen must still be clearly visible
-         in darkness (although they may not be visible in a bright room). -->
-    <integer name="config_screenBrightnessDark">1</integer>
-
-    <!-- Indicates whether device has a power button fingerprint sensor. -->
-    <bool name="config_is_powerbutton_fps" translatable="false" >true</bool>
-
-    <integer-array name="config_availableColorModes">
-        <item>0</item>
-        <item>1</item>
-        <item>3</item>
-    </integer-array>
-
-    <!-- The default refresh rate for a given device. Change this value to set a higher default
-         refresh rate. If the hardware composer on the device supports display modes with a higher
-         refresh rate than the default value specified here, the framework may use those higher
-         refresh rate modes if an app chooses one by setting preferredDisplayModeId or calling
-         setFrameRate().
-         If a non-zero value is set for config_defaultPeakRefreshRate, then
-         config_defaultRefreshRate may be set to 0, in which case the value set for
-         config_defaultPeakRefreshRate will act as the default frame rate. -->
-    <integer name="config_defaultRefreshRate">0</integer>
-
-    <!-- The default peak refresh rate for a given device. Change this value if you want to prevent
-         the framework from using higher refresh rates, even if display modes with higher refresh
-         rates are available from hardware composer. Only has an effect if the value is
-         non-zero. -->
-    <integer name="config_defaultPeakRefreshRate">120</integer>
-
-    <!-- Whether the new Auto Selection Network UI should be shown -->
-    <bool name="config_enableNewAutoSelectNetworkUI">true</bool>
+         Note that doze dreams are not subject to the same start conditions as ordinary dreams.
+         Doze dreams will run whenever the power manager is in a dozing state. -->
+    <string name="config_dozeComponent">com.android.systemui/com.android.systemui.doze.DozeService</string>
 
     <!-- If true, the doze component is not started until after the screen has been
          turned off and the screen off animation has been performed. -->
     <bool name="config_dozeAfterScreenOffByDefault">true</bool>
 
-    <!-- Whether UI for multi user should be shown -->
+    <!-- Doze: should the TYPE_PICK_UP_GESTURE sensor be used as a pulse signal. -->
+    <bool name="config_dozePulsePickup">true</bool>
+
+    <!-- Control whether the always on display mode is available. This should only be enabled on
+         devices where the display has been tuned to be power efficient in DOZE and/or DOZE_SUSPEND
+         states. -->
+    <bool name="config_dozeAlwaysOnDisplayAvailable">true</bool>
+
+    <!-- Control whether the always on display mode is enabled by default. This value will be used
+         during initialization when the setting is still null. -->
+    <bool name="config_dozeAlwaysOnEnabled">false</bool>
+
+    <!-- Power Management: Specifies whether to decouple the auto-suspend state of the
+         device from the display on/off state.
+
+         When false, autosuspend_disable() will be called before the display is turned on
+         and autosuspend_enable() will be called after the display is turned off.
+         This mode provides best compatibility for devices using legacy power management
+         features such as early suspend / late resume.
+
+         When true, autosuspend_display() and autosuspend_enable() will be called
+         independently of whether the display is being turned on or off.  This mode
+         enables the power manager to suspend the application processor while the
+         display is on.
+
+         This resource should be set to "true" when a doze component has been specified
+         to maximize power savings but not all devices support it.
+
+         Refer to autosuspend.h for details.
+    -->
+    <bool name="config_powerDecoupleAutoSuspendModeFromDisplay">true</bool>
+
+    <!-- Power Management: Specifies whether to decouple the interactive state of the
+         device from the display on/off state.
+
+         When false, setInteractive(..., true) will be called before the display is turned on
+         and setInteractive(..., false) will be called after the display is turned off.
+         This mode provides best compatibility for devices that expect the interactive
+         state to be tied to the display state.
+
+         When true, setInteractive(...) will be called independently of whether the display
+         is being turned on or off.  This mode enables the power manager to reduce
+         clocks and disable the touch controller while the display is on.
+
+         This resource should be set to "true" when a doze component has been specified
+         to maximize power savings but not all devices support it.
+
+         Refer to power.h for details.
+    -->
+    <bool name="config_powerDecoupleInteractiveModeFromDisplay">true</bool>
+
+    <!-- Set to true to add links to Cell Broadcast app from Settings and MMS app. -->
+    <bool name="config_cellBroadcastAppLinks">false</bool>
+
+    <!-- Whether UI for multi user should be shown.
+         Note: If true, it is expected that secondary users are supported on the device (at least
+         for testing purposes, even if in practice the UI really only allows other switchable
+         types, such as restricted profiles or guests, to be created).
+         @deprecated  Use config_multiuserMaximumUsers instead.
+         This config will likely be removed in the future; config_multiuserMaximumUsers, which now
+         only applies to full users, not profiles, should be updated accordingly as needed.
+         TODO(b/435521983): Remove this since it's now made redundant by config_multiuserMaximumUsers
+         -->
     <bool name="config_enableMultiUserUI">true</bool>
 
-    <!-- Flag indicating which package name can access the persistent data partition -->
-    <string name="config_persistentDataPackageName">com.google.android.gms</string>
+    <!-- Whether the new Auto Selection Network UI should be shown -->
+    <bool name="config_enableNewAutoSelectNetworkUI">true</bool>
 
-    <!-- Is the device capable of hot swapping an UICC Card -->
-    <bool name="config_hotswapCapable">true</bool>
+    <!-- Configure mobile tcp buffer sizes in the form:
+         rat-name:rmem_min,rmem_def,rmem_max,wmem_min,wmem_def,wmem_max
+         If no value is found for the rat-name in use, the system default will be applied.
 
-    <string-array name="config_nightDisplayColorTemperatureCoefficients">
-        <item>0.0000000000</item>
-        <item>0.0000000000</item>
-        <item>1.0000000000</item>
-        <item>0.0000000281</item>
-        <item>0.0001170904</item>
-        <item>0.0531398842</item>
-        <item>0.0000001719</item>
-        <item>-0.0006027865</item>
-        <item>0.5963358908</item>
+         This is deprecated. Please use config_mobile_tcp_buffers for rat-based TCP buffers sizes or
+         config_tcp_buffers for rat-independent TCP buffer sizes.
+    -->
+    <string-array name="config_mobile_tcp_buffers">
+        <item>5gnr:2097152,6291456,16777216,512000,2097152,8388608</item>
+        <item>lte:2097152,4194304,8388608,262144,524288,1048576</item>
+        <item>lte_ca:4096,6291456,12582912,4096,1048576,2097152</item>
+        <item>umts:4094,87380,1220608,4096,16384,1220608</item>
+        <item>hspa:4094,87380,1220608,4096,16384,1220608</item>
+        <item>hsupa:4094,87380,1220608,4096,16384,1220608</item>
+        <item>hsdpa:4094,87380,1220608,4096,16384,1220608</item>
+        <item>hspap:4094,87380,1220608,4096,16384,1220608</item>
+        <item>edge:4093,26280,35040,4096,16384,35040</item>
+        <item>gprs:4092,8760,11680,4096,8760,11680</item>
+        <item>evdo:4094,87380,524288,4096,16384,262144</item>
     </string-array>
 
-    <string-array name="config_nightDisplayColorTemperatureCoefficientsNative">
-        <item>0.0000000000</item>
-        <item>0.0000000000</item>
-        <item>1.0000000000</item>
-        <item>0.0000000281</item>
-        <item>0.0001170904</item>
-        <item>0.0531398842</item>
-        <item>0.0000001719</item>
-        <item>-0.0006027865</item>
-        <item>0.5963358908</item>
-    </string-array>
+    <!-- Whether WiFi display is supported by this device.
+         There are many prerequisites for this feature to work correctly.
+         Here are a few of them:
+         * The WiFi radio must support WiFi P2P.
+         * The WiFi radio must support concurrent connections to the WiFi display and
+           to an access point.
+         * The Audio Server audio_policy_configuration.xml file must specify a rule for
+           the "r_submix" remote submix module.  This module is used to record and stream system
+           audio output to the WiFi display encoder in the media server.
+         * The remote submix module "audio.r_submix.default" must be installed on the device.
+         * The device must be provisioned with HDCP keys (for protected content).
+    -->
+    <bool name="config_enableWifiDisplay">true</bool>
 
-    <!-- Default color temperature, in Kelvin, to tint the screen when Night display is
-         activated. -->
-    <integer name="config_nightDisplayColorTemperatureDefault">3339</integer>
+    <!-- When true use the linux /dev/input/event subsystem to detect the switch changes
+         on the headphone/microphone jack. When false use the older uevent framework. -->
+    <bool name="config_useDevInputEventForAudioJack">true</bool>
 
-    <!-- Whether the device enable the standalone (SA) mode of 5G NR.-->
-    <bool name="config_telephony5gStandalone">true</bool>
-    <!-- Whether the device enable the non-standalone (NSA) mode of 5G NR.-->
-    <bool name="config_telephony5gNonStandalone">true</bool>
+    <!-- Set to true if the wifi display supports compositing content stored
+         in gralloc protected buffers.  For this to be true, there must exist
+         a protected hardware path for surface flinger to composite and send
+         protected buffers to the wifi display video encoder.
 
-    <!-- The display uses different gamma curves for different refresh rates. It's hard for panel
-         vendors to tune the curves to have exact same brightness for different refresh rate. So
-         flicker could be observed at switch time. The issue is worse at the gamma lower end.
-         In addition, human eyes are more sensitive to the flicker at darker environment.
-         To prevent flicker, we only support higher refresh rates if the display brightness is above
-         a threshold.
-         For example, no higher refresh rate if
-             display brightness <= disp0 && ambient brightness <= amb0
-             || display brightness <= disp1 && ambient brightness <= amb1 -->
-    <integer-array name="config_brightnessThresholdsOfPeakRefreshRate">
-        <item>6</item>
-        <item>12</item>
-    </integer-array>
-    <integer-array name="config_ambientThresholdsOfPeakRefreshRate">
-        <item>-1</item>
-        <item>20</item>
-    </integer-array>
+         If this flag is false, we advise applications not to use protected
+         buffers (if possible) when presenting content to a wifi display because
+         the content may be blanked.
 
-    <!-- default refresh rate in the zone defined by birghtness and ambient thresholds -->
-    <integer name="config_defaultRefreshRateInZone">120</integer>
+         This flag controls whether the {@link Display#FLAG_SUPPORTS_PROTECTED_BUFFERS}
+         flag is set for wifi displays.
+    -->
+    <bool name="config_wifiDisplaySupportsProtectedBuffers">true</bool>
+
+    <!-- Flag indicating if the speed up audio on mt call code should be executed -->
+    <bool name="config_speed_up_audio_on_mt_calls">true</bool>
 
     <!-- An array of device capabilities defined by GSMA SGP.22 v2.0.
          The first item is the capability name that the device supports. The second item is the
@@ -557,6 +412,130 @@
         <item>nfc,1</item>
     </string-array>
 
-     <!-- Determines whether the shell features all run on another thread. -->
-     <bool name="config_enableShellMainThread">true</bool>
+    <!-- Flag indicating which package name can access the persistent data partition -->
+    <string name="config_persistentDataPackageName">com.google.android.gms</string>
+
+    <!-- Flag specifying whether VoLTE is available on device -->
+    <bool name="config_device_volte_available">true</bool>
+
+    <!-- Flag specifying whether VT is available on device -->
+    <bool name="config_device_vt_available">true</bool>
+
+    <!-- Flag specifying whether WFC over IMS is available on device -->
+    <bool name="config_device_wfc_ims_available">true</bool>
+
+    <!-- Config determines whether to update phone object when voice registration
+         state changes. Voice radio tech change will always trigger an update of
+         phone object irrespective of this config -->
+    <bool name="config_switch_phone_on_voice_reg_state_change">false</bool>
+
+    <!-- Number of physical SIM slots on the device. This includes both eSIM and pSIM slots, and
+         is not necessarily the same as the number of phones/logical modems supported by the device.
+         For example, a multi-sim device can have 2 phones/logical modems, but 3 physical slots,
+         or a single SIM device can have 1 phones/logical modems, but 2 physical slots (one eSIM
+         and one pSIM) -->
+    <integer name="config_num_physical_slots">2</integer>
+
+    <!-- If true, the display will be shifted around in ambient mode. -->
+    <bool name="config_enableBurnInProtection">true</bool>
+
+    <!-- Whether device supports double tap to wake -->
+    <bool name="config_supportDoubleTapWake">true</bool>
+
+    <!-- Whether the Unprocessed audio source supports the required frequency range and level -->
+    <bool name="config_supportAudioSourceUnprocessed">true</bool>
+
+    <!-- True if the device supports Sustained Performance Mode-->
+    <bool name="config_sustainedPerformanceModeSupported">true</bool>
+
+    <!-- Default files to pin via Pinner Service -->
+    <string-array name="config_defaultPinnerServiceFiles">
+        <item>"/system/framework/arm64/boot-framework.oat"</item>
+        <item>"/system/framework/framework.jar"</item>
+        <item>"/system/framework/oat/arm64/services.odex"</item>
+        <item>"/system/framework/services.jar"</item>
+        <item>"/apex/com.android.art/javalib/core-oj.jar"</item>
+        <item>"/apex/com.android.art/javalib/core-libart.jar"</item>
+        <item>"/system_ext/priv-app/SystemUI/SystemUI.apk"</item>
+        <item>"/system_ext/priv-app/SystemUI/oat/arm64/SystemUI.odex"</item>
+        <item>"/system/bin/surfaceflinger"</item>
+        <item>"/system/framework/framework.jar"</item>
+        <item>"/system/framework/services.jar"</item>
+        <item>"/system/lib64/libEGL.so"</item>
+        <item>"/system/lib64/libGLESv2.so"</item>
+        <item>"/system/lib64/libhwui.so"</item>
+        <item>"/vendor/lib64/libcamxexternalformatutils.so"</item>
+        <item>"/vendor/lib64/libipebpsstriping170.so"</item>
+        <item>"/vendor/lib64/libipebpsstriping.so"</item>
+        <item>"/vendor/lib64/egl/libEGL_adreno.so"</item>
+        <item>"/vendor/lib64/egl/libGLESv2_adreno.so"</item>
+        <item>"/vendor/lib64/libCB.so"</item>
+        <item>"/vendor/lib64/libgsl.so"</item>
+        <item>"/vendor/lib64/libllvm-glnext.so"</item>
+        <item>"/vendor/lib64/libllvm-qcom.so"</item>
+        <item>"/vendor/lib64/libllvm-qgl.so"</item>
+    </string-array>
+
+    <!-- Note: This config is deprecated, use config_pinnerCameraPinBytes instead.
+         True if camera app should be pinned via Pinner Service -->
+    <bool name="config_pinnerCameraApp">true</bool>
+
+    <!-- Default: 60 MB. Bytes that the PinnerService will pin for Home app -->
+    <integer name="config_pinnerHomePinBytes">6291456</integer>
+
+    <!-- The default refresh rate for a given device. Change this value to set a higher default
+         refresh rate. If the hardware composer on the device supports display modes with a higher
+         refresh rate than the default value specified here, the framework may use those higher
+         refresh rate modes if an app chooses one by setting preferredDisplayModeId or calling
+         setFrameRate().
+         If a non-zero value is set for config_defaultPeakRefreshRate, then
+         config_defaultRefreshRate may be set to 0, in which case the value set for
+         config_defaultPeakRefreshRate will act as the default frame rate. -->
+    <integer name="config_defaultRefreshRate">0</integer>
+
+    <!-- The default peak refresh rate for a given device. Change this value if you want to prevent
+         the framework from using higher refresh rates, even if display modes with higher refresh
+         rates are available from hardware composer. Only has an effect if the value is
+         non-zero. -->
+    <integer name="config_defaultPeakRefreshRate">120</integer>
+
+    <!-- The display uses different gamma curves for different refresh rates. It's hard for panel
+         vendors to tune the curves to have exact same brightness for different refresh rate. So
+         flicker could be observed at switch time. The issue is worse at the gamma lower end.
+         In addition, human eyes are more sensitive to the flicker at darker environment.
+         To prevent flicker, we only support higher refresh rates if the display brightness is above
+         a threshold.
+         For example, no higher refresh rate if
+             display brightness <= disp0 && ambient brightness <= amb0
+             || display brightness <= disp1 && ambient brightness <= amb1
+         Brightness thresholds are paired with lux thresholds - they both have to be met.
+         A negative brightness or lux value means that only one threshold should be used - e.g. if
+         the brightness value is negative, only the lux threshold is applied. -->
+    <!-- Low zone brightness thresholds in the range [0, 255] -->
+    <integer-array name="config_brightnessThresholdsOfPeakRefreshRate">
+        <item>6</item>
+        <item>12</item>
+    </integer-array>
+
+    <!-- Low zone lux thresholds -->
+    <integer-array name="config_ambientThresholdsOfPeakRefreshRate">
+        <item>-1</item>
+        <item>20</item>
+    </integer-array>
+
+    <!-- Default refresh rate in the zone defined by brightness and ambient thresholds.
+         If non-positive, then the refresh rate is unchanged even if thresholds are configured. -->
+    <integer name="config_defaultRefreshRateInZone">120</integer>
+
+    <!-- Indicates whether device has a power button fingerprint sensor. -->
+    <bool name="config_is_powerbutton_fps">true</bool>
+
+    <!-- Whether the device enable the standalone (SA) mode of 5G NR.-->
+    <bool name="config_telephony5gStandalone">true</bool>
+
+    <!-- Whether the device enable the non-standalone (NSA) mode of 5G NR.-->
+    <bool name="config_telephony5gNonStandalone">true</bool>
+
+    <!-- Determines whether the shell features all run on another thread. -->
+    <bool name="config_enableShellMainThread">true</bool>
 </resources>
