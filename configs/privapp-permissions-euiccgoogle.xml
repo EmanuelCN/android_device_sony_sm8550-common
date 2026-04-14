@@ -18,5 +18,7 @@
         <permission name="com.android.permission.WRITE_EMBEDDED_SUBSCRIPTIONS"/>
         <permission name="android.permission.START_ACTIVITIES_FROM_BACKGROUND"/>
         <permission name="com.google.android.setupwizard.SETUP_COMPAT_SERVICE"/>
+        <permission name="android.permission.REAL_GET_TASKS"/>
+        <permission name="android.permission.READ_NETWORK_USAGE_HISTORY"/>
     </privapp-permissions>
 </permissions>
