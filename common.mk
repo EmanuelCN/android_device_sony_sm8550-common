@@ -183,11 +183,6 @@ PRODUCT_PACKAGES += \
 # Enforce generic ramdisk allow list
 $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
 
-# Fastboot
-PRODUCT_PACKAGES += \
-    android.hardware.fastboot-service.example_recovery \
-    fastbootd
-
 # Fingerprint
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint-service.lineage
