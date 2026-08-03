@@ -95,6 +95,10 @@ blob_fixups: blob_fixups_user_type = {
     .add_line_if_missing(
         'gettid: 1'
     ),
+    'system_ext/etc/seccomp_policy/tcmd.policy': blob_fixup()
+    .add_line_if_missing(
+        'lseek: 1'
+    ),
     'vendor/lib64/vendor.libdpmframework.so': blob_fixup()
     .add_needed(
         'libhidlbase_shim.so',
