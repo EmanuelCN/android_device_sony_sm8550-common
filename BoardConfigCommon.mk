@@ -280,4 +280,4 @@ WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
 WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 
--include vendor/sony/sm8550-common/BoardConfigVendor.mk
+include vendor/sony/sm8550-common/BoardConfigVendor.mk
