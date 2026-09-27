@@ -728,7 +728,6 @@ vendor/lib64/vendor.qti.imsrtpservice@3.1.so|f364df69208ca5449dd637e71846e110cd8
 
 # Kernel
 vendor/bin/init.qcom.class_core.sh
-vendor/bin/init.qti.kernel.sh
 vendor/bin/system_dlkm_modprobe.sh
 vendor/bin/vendor_modprobe.sh
 

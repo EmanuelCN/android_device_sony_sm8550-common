@@ -103,6 +103,12 @@ sh_binary {
 }
 
 sh_binary {
+    name: "init.qti.kernel.sh",
+    src: "init.qti.kernel.sh",
+    soc_specific: true,
+}
+
+sh_binary {
     name: "init.kernel.post_boot.sh",
     src: "init.kernel.post_boot.sh",
     vendor: true,
