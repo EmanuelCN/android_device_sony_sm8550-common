@@ -1128,10 +1128,6 @@ vendor/lib64/libminkdescriptor.so
 vendor/lib64/libminksocket_vendor.so
 vendor/lib64/libqcbor.so
 
-# SSR
-vendor/bin/ssr_setup
-vendor/bin/subsystem_ramdump
-
 # Secd
 system/lib64/libMiscTaWrapper.so:vendor/lib64/libMiscTaWrapper.so
 system_ext/etc/permissions/jp.co.sony.mc.misctasdklibrary.xml
