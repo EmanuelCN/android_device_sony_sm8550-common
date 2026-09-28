@@ -126,12 +126,6 @@ on charger
     start vendor.power_off_alarm
     write /sys/kernel/cnss/charger_mode 1
 
-#service vendor.lowi /vendor/bin/sscrpcd
-#   class core
-#   user system
-#   group system wakelock
-#   capabilities BLOCK_SUSPEND
-
 #pd-mapper
 service vendor.pd_mapper /vendor/bin/pd-mapper
     class core
