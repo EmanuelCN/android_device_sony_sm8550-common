@@ -615,12 +615,6 @@ service time_daemon /vendor/bin/time_daemon
 on property:ro.vendor.radio.noril=*
     setprop ro.radio.noril ${ro.vendor.radio.noril}
 
-service vendor.power_off_alarm /vendor/bin/power_off_alarm
-    class core
-    group system
-    disabled
-    oneshot
-
 service chre /vendor/bin/chre
     class late_start
     user system
