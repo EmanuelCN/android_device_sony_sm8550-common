@@ -779,9 +779,9 @@ vendor/etc/init/init.keyprovd.rc
 vendor/bin/hw/vendor.qti.hardware.limits@1.2-service
 vendor/etc/init/vendor.qti.hardware.limits-service.rc
 vendor/etc/vintf/manifest/vendor.qti.hardware.limits-service.xml
-vendor/lib64/vendor.qti.hardware.limits@1.0.so
-vendor/lib64/vendor.qti.hardware.limits@1.1.so
-vendor/lib64/vendor.qti.hardware.limits@1.2.so
+vendor/lib64/vendor.qti.hardware.limits@1.0.so;MODULE_SUFFIX=_vendor
+vendor/lib64/vendor.qti.hardware.limits@1.1.so;MODULE_SUFFIX=_vendor
+vendor/lib64/vendor.qti.hardware.limits@1.2.so;MODULE_SUFFIX=_vendor
 
 # Listen
 vendor/lib64/libcapiv2svacnnvendor.so
@@ -1317,7 +1317,6 @@ vendor/etc/init/vendor.qti.tftp.rc
 vendor/bin/thermal-engine-v2
 vendor/etc/init/init_thermal-engine-v2.rc
 vendor/lib64/liblights-core.so
-vendor/lib64/liblmthermallistner.so
 vendor/lib64/libsys-utils.so
 vendor/lib64/libthermal_engine.so
 vendor/lib64/libthermalclient.so
