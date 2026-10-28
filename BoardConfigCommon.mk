@@ -79,7 +79,7 @@ BOARD_KERNEL_IMAGE_NAME := Image
 
 TARGET_KERNEL_SOURCE := kernel/sony/sm8550
 TARGET_KERNEL_CONFIG := kalama_defconfig
-TARGET_KERNEL_CLANG_VERSION := r574158
+TARGET_KERNEL_CLANG_VERSION := r563880c
 
 BOARD_VENDOR_KERNEL_MODULES_BLOCKLIST_FILE := $(COMMON_PATH)/modules.blocklist
 BOARD_VENDOR_KERNEL_MODULES_LOAD := $(strip $(shell cat $(COMMON_PATH)/modules.load))
@@ -163,7 +163,6 @@ TARGET_USES_VULKAN := true
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
     hardware/qcom-caf/common/vendor_framework_compatibility_matrix.xml \
     hardware/sony/vintf/device_framework_matrix.xml
-DEVICE_FRAMEWORK_MANIFEST_FILE += $(COMMON_PATH)/framework_manifest.xml
 DEVICE_MATRIX_FILE := hardware/qcom-caf/common/compatibility_matrix.xml
 DEVICE_MANIFEST_FILE := \
     $(COMMON_PATH)/manifest.xml \
@@ -179,7 +178,7 @@ BOARD_USES_METADATA_PARTITION := true
 
 # Partitions
 BOARD_PRODUCTIMAGE_MINIMAL_PARTITION_RESERVED_SIZE := false
--include vendor/lineage/config/BoardConfigReservedSize.mk
+-include vendor/octavi/config/BoardConfigReservedSize.mk
 BOARD_BOOTIMAGE_PARTITION_SIZE := 100663296
 BOARD_DTBOIMG_PARTITION_SIZE := 25165824
 BOARD_INIT_BOOT_IMAGE_PARTITION_SIZE := 8388608

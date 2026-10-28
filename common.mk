@@ -342,11 +342,6 @@ PRODUCT_PACKAGES += \
     WifiResCommon
 
 # Partitions
-PRODUCT_PACKAGES += \
-    vendor_bt_firmware_mountpoint \
-    vendor_dsp_mountpoint \
-    vendor_firmware_mnt_mountpoint
-
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
 # Power
@@ -425,9 +420,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     qcrilNrDb_vendor
-
-PRODUCT_BOOT_JARS += \
-    telephony-ext
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.telephony.euicc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.euicc.xml \
