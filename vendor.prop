@@ -236,6 +236,9 @@ ro.surface_flinger.wcg_composition_dataspace=143261696
 # Keystore
 ro.hardware.keystore_desede=true
 
+# LMK
+ro.vendor.lmk.force_inkernel_lmk=true
+
 # Media
 debug.c2.use_dmabufheaps=1
 debug.stagefright.c2inputsurface=-1
